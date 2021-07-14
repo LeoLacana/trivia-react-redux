@@ -38,6 +38,7 @@ class Login extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <img src={ logo } className="App-logo" alt="logo" width="150" />
@@ -72,6 +73,14 @@ class Login extends Component {
           onClick={ () => this.startGame() }
         >
           Jogar
+        </button>
+        {/* https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md */}
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          <span role="img" aria-label="engine-emoji">⚙️</span>
         </button>
       </div>
     );

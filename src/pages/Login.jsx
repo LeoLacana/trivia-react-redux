@@ -1,6 +1,9 @@
 // create react component
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
+import { requestToken } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -9,12 +12,13 @@ class Login extends Component {
       name: '',
       email: '',
     };
-
     this.verifyRegexEmail = this.verifyRegexEmail.bind(this);
   }
 
   verifyRegexEmail() {
-    // lembrar de referenciar regex
+    /** Para realizar o uso de verificação do email, tive que usar o regex pattern
+     * para verificação de email abaixo:
+     * Source: https://forum.blip.ai/t/resolvido-regex-para-validacao-de-email/1635 */
     const { email, name } = this.state;
     const emailRegex = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
     return (emailRegex.test(email) && name.length > 0);
@@ -22,8 +26,15 @@ class Login extends Component {
 
   handleChange({ target }) {
     const { name, value } = target;
-    this.setState({ [name]: value },
-      () => console.log(this.verifyRegexEmail()));
+    this.setState({ [name]: value });
+  }
+
+  async startGame() {
+    const { triviaAPI, history } = this.props;
+    await triviaAPI();
+    const { token } = this.props;
+    localStorage.setItem('token', token);
+    history.push('/game');
   }
 
   render() {
@@ -44,7 +55,6 @@ class Login extends Component {
             onChange={ (e) => this.handleChange(e) }
           />
         </label>
-
         <label htmlFor="inputName">
           <input
             type="text"
@@ -59,14 +69,29 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ !this.verifyRegexEmail() }
-          // onClick={} Aqui ficará o metodo que irá chamar o jogo.
+          onClick={ () => this.startGame() }
         >
           Jogar
         </button>
       </div>
-
     );
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  token: state.triviaReducer.sectionTriviaToken,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  triviaAPI: () => dispatch(requestToken()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  triviaAPI: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
+};

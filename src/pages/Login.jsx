@@ -59,7 +59,7 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ !this.verifyRegexEmail() }
-          // onClick={} Aqui ficará o metodo que irá chamar o jogo
+          // onClick={} Aqui ficará o metodo que irá chamar o jogo.
         >
           Jogar
         </button>

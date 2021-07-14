@@ -12,7 +12,6 @@ class Login extends Component {
       name: '',
       email: '',
     };
-
     this.verifyRegexEmail = this.verifyRegexEmail.bind(this);
   }
 
@@ -56,7 +55,6 @@ class Login extends Component {
             onChange={ (e) => this.handleChange(e) }
           />
         </label>
-
         <label htmlFor="inputName">
           <input
             type="text"
@@ -76,7 +74,6 @@ class Login extends Component {
           Jogar
         </button>
       </div>
-
     );
   }
 }

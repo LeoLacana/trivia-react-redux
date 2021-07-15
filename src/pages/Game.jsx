@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import Questions from '../components/Questions';
 
 class Game extends Component {
   md5Converter(email) {
@@ -33,6 +34,7 @@ class Game extends Component {
             </span>
           </p>
         </div>
+        <Questions />
       </div>
     );
   }

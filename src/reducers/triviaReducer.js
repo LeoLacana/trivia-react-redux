@@ -1,15 +1,20 @@
 // create a reducer to manage the login state
-import { TOKEN_REQUEST_SUCCESS } from '../actions/actionTypes';
+import { TOKEN_REQUEST_SUCCESS, QUESTIONS_REQUEST } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   sectionTriviaToken: '',
+  questions: {},
 };
 
 const triviaReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case TOKEN_REQUEST_SUCCESS:
     return {
-      sectionTriviaToken: action.token,
+      ...state, sectionTriviaToken: action.token,
+    };
+  case QUESTIONS_REQUEST:
+    return {
+      ...state, questions: action.questions,
     };
   default:
     return state;

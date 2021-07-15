@@ -15,9 +15,20 @@ export const initialLogin = (data) => ({
   data,
 });
 
+export const allQuestions = (questions) => ({
+  type: types.QUESTIONS_REQUEST,
+  questions,
+});
+
 export function requestToken() {
   return (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
     .then((response) => response.json())
     .then((token) => dispatch(tokenRequestSuccess(token)))
     .catch((error) => dispatch(tokenRequestError(error)));
+}
+
+export function questionsRequest(token) {
+  return (dispatch) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((response) => response.json())
+    .then((questions) => dispatch(allQuestions(questions)));
 }

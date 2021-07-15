@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
-import { requestToken } from '../actions';
+import { requestToken, initialLogin } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -30,11 +30,13 @@ class Login extends Component {
   }
 
   async startGame() {
-    const { triviaAPI, history } = this.props;
+    const { triviaAPI, history, login } = this.props;
     await triviaAPI();
     const { token } = this.props;
     localStorage.setItem('token', token);
     history.push('/game');
+    // console.log(this.state);
+    login(this.state);
   }
 
   render() {
@@ -93,6 +95,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   triviaAPI: () => dispatch(requestToken()),
+  login: (data) => dispatch(initialLogin(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
@@ -103,4 +106,5 @@ Login.propTypes = {
   }).isRequired,
   triviaAPI: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
+  login: PropTypes.func.isRequired,
 };

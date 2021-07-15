@@ -1,0 +1,12 @@
+1. Padrão para nome de branchs
+=> main-group-34-requisito-"número do requisito"
+
+2. Horários de encontros oficiais
+=> 14:00 às 20:00
+
+3. Tudo o que for modificado, será informado em threads no Slack
+No título => [Atualização] `Informação a ser adicionada`
+Na thread => Conteúdo da thread.
+
+4. DM's 14:30 às 15:30 e 20:00 às 20:30
+=> Alinhamentos e resolução de conflitos.

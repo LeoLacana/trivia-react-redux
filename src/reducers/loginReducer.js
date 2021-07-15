@@ -1,14 +1,16 @@
-// create a reducer to manage the login state
+import * as type from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   email: '',
+  name: '',
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'LOGIN_SUCCESS':
+  case type.LOGIN:
     return {
-      email: action.email,
+      email: action.data.email,
+      name: action.data.name,
     };
   default:
     return state;

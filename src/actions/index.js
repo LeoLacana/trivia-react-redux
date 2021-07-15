@@ -10,10 +10,10 @@ export const tokenRequestError = (errorData) => ({
   errorData,
 });
 
-// export const login = (loginData) => ({
-//   type: types.LOGIN,
-//   loginData,
-// });
+export const initialLogin = (data) => ({
+  type: types.LOGIN,
+  data,
+});
 
 export function requestToken() {
   return (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')

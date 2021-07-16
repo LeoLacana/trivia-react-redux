@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { questionsRequest } from '../actions';
+import CorrectAnswer from './subComponents/CorrectAnswer';
+import WrongAnswer from './subComponents/WrongAnswer';
 
 class Questions extends Component {
   constructor() {
@@ -9,9 +11,11 @@ class Questions extends Component {
     this.state = {
       questionIndex: 0,
       questions: [],
+      styleAlternative: false,
     };
     this.handleState = this.handleState.bind(this);
     this.shuffle = this.shuffle.bind(this);
+    this.answerClick = this.answerClick.bind(this);
   }
 
   async componentDidMount() {
@@ -43,8 +47,15 @@ class Questions extends Component {
     return array;
   }
 
+  answerClick() {
+    console.log('entrou no AnswerClick');
+    this.setState({
+      styleAlternative: true,
+    });
+  }
+
   render() {
-    const { questions, questionIndex } = this.state;
+    const { questions, questionIndex, styleAlternative } = this.state;
     return questions.length === 0 ? <div>Loading</div> : (
       <div>
         {questions.map(({ category,
@@ -61,25 +72,21 @@ class Questions extends Component {
                     this.shuffle([...incorrectAnswers, correctAnswer]
                       .map((text, alternativeIndex) => {
                         if (text === correctAnswer) {
-                          return (
-                            <button
-                              type="button"
-                              key={ text }
-                              data-testid="correct-answer"
-                            >
-                              {text}
-                            </button>
-                          );
-                        }
-                        return (
-                          <button
-                            type="button"
+                          return (<CorrectAnswer
+                            style={ { backgroundColor: '#00ff00' } }
                             key={ text }
-                            data-testid={ `wrong-answer-${alternativeIndex}` }
-                          >
-                            {text}
-                          </button>
-                        );
+                            text={ text }
+                            styleAlternative={ styleAlternative }
+                            answerClick={ this.answerClick }
+                          />);
+                        }
+                        return (<WrongAnswer
+                          key={ text }
+                          text={ text }
+                          alternativeIndex={ alternativeIndex }
+                          styleAlternative={ styleAlternative }
+                          answerClick={ this.answerClick }
+                        />);
                       }))
                   }
                 </div>

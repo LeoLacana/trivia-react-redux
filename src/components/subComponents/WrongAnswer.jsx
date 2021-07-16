@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 class WrongAnswer extends Component {
   render() {
-    const { text, alternativeIndex, answerClick, styleAlternative } = this.props;
+    const { text,
+      alternativeIndex,
+      answerClick,
+      styleAlternative,
+      countDown } = this.props;
     const styles = {
       border: '3px solid rgb(255, 0, 0)',
     };
@@ -14,6 +18,7 @@ class WrongAnswer extends Component {
         data-testid={ `wrong-answer-${alternativeIndex}` }
         onClick={ () => answerClick() }
         style={ styleAlternative ? styles : null }
+        disabled={ countDown === 0 }
       >
         {text}
       </button>
@@ -28,4 +33,5 @@ WrongAnswer.propTypes = {
   alternativeIndex: PropTypes.number.isRequired,
   answerClick: PropTypes.func.isRequired,
   styleAlternative: PropTypes.bool.isRequired,
+  countDown: PropTypes.number.isRequired,
 };

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { questionsRequest } from '../actions';
-import CorrectAnswer from './subComponents/CorrectAnswer';
-import WrongAnswer from './subComponents/WrongAnswer';
+import AlternativesContainer from './subComponents/AlternativesContainer';
 
 class Questions extends Component {
   constructor() {
@@ -12,6 +11,7 @@ class Questions extends Component {
       questionIndex: 0,
       questions: [],
       styleAlternative: false,
+      countDown: 30,
     };
     this.handleState = this.handleState.bind(this);
     this.shuffle = this.shuffle.bind(this);
@@ -26,6 +26,23 @@ class Questions extends Component {
 
     const { questions } = this.props;
     this.handleState(questions);
+
+    const ThirtySeconds = 30;
+    let i = ThirtySeconds;
+    const oneSecond = 1000;
+    const interval = setInterval(() => {
+      if (i === 0) {
+        this.setState({
+          styleAlternative: true,
+        });
+        clearInterval(interval);
+      }
+
+      this.setState({
+        countDown: i,
+      });
+      i -= 1;
+    }, oneSecond);
   }
 
   handleState(questions) {
@@ -54,46 +71,37 @@ class Questions extends Component {
     });
   }
 
+  // eslint-disable-next-line max-lines-per-function
   render() {
-    const { questions, questionIndex, styleAlternative } = this.state;
+    const { questions, questionIndex, styleAlternative, countDown } = this.state;
     return questions.length === 0 ? <div>Loading</div> : (
       <div>
-        {questions.map(({ category,
-          question,
+        {questions.map(({ category, question,
           correct_answer: correctAnswer,
           incorrect_answers: incorrectAnswers }, index) => {
           if (questionIndex === index) {
             return (
               <div>
+                <p>
+                  Tempo restante:
+                  <span>
+                    { `${countDown}`}
+                  </span>
+                </p>
                 <p data-testid="question-text">{category}</p>
                 <p data-testid="question-category">{question}</p>
                 <div>
-                  {
-                    this.shuffle([...incorrectAnswers, correctAnswer]
-                      .map((text, alternativeIndex) => {
-                        if (text === correctAnswer) {
-                          return (<CorrectAnswer
-                            style={ { backgroundColor: '#00ff00' } }
-                            key={ text }
-                            text={ text }
-                            styleAlternative={ styleAlternative }
-                            answerClick={ this.answerClick }
-                          />);
-                        }
-                        return (<WrongAnswer
-                          key={ text }
-                          text={ text }
-                          alternativeIndex={ alternativeIndex }
-                          styleAlternative={ styleAlternative }
-                          answerClick={ this.answerClick }
-                        />);
-                      }))
-                  }
+                  <AlternativesContainer
+                    alternatives={ [...incorrectAnswers, correctAnswer] }
+                    styleAlternative={ styleAlternative }
+                    countDown={ countDown }
+                    answerClick={ this.answerClick }
+                    index={ index }
+                  />
                 </div>
               </div>
             );
-          }
-          return null;
+          } return null;
         })}
       </div>
     );

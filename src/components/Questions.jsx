@@ -16,26 +16,29 @@ class Questions extends Component {
     this.handleState = this.handleState.bind(this);
     this.shuffle = this.shuffle.bind(this);
     this.answerClick = this.answerClick.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
   }
 
   async componentDidMount() {
     const { requestQuestions } = this.props;
     const token = localStorage.getItem('token');
-
     await requestQuestions(token);
-
     const { questions } = this.props;
     this.handleState(questions);
+    this.updateTimer();
+  }
 
+  updateTimer() {
     const ThirtySeconds = 30;
     let i = ThirtySeconds;
     const oneSecond = 1000;
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       if (i === 0) {
         this.setState({
           styleAlternative: true,
         });
-        clearInterval(interval);
+        clearInterval(this.interval);
       }
 
       this.setState({
@@ -65,44 +68,66 @@ class Questions extends Component {
   }
 
   answerClick() {
-    console.log('entrou no AnswerClick');
     this.setState({
       styleAlternative: true,
     });
+    clearInterval(this.interval);
+  }
+
+  nextQuestion() {
+    const { questionIndex } = this.state;
+    this.setState({
+      questionIndex: questionIndex + 1,
+      styleAlternative: false,
+    });
+    this.updateTimer();
   }
 
   // eslint-disable-next-line max-lines-per-function
   render() {
     const { questions, questionIndex, styleAlternative, countDown } = this.state;
-    return questions.length === 0 ? <div>Loading</div> : (
+    return questions.length === 0 ? (
+      <div>Loading</div>
+    ) : (
       <div>
-        {questions.map(({ category, question,
-          correct_answer: correctAnswer,
-          incorrect_answers: incorrectAnswers }, index) => {
-          if (questionIndex === index) {
-            return (
-              <div>
-                <p>
-                  Tempo restante:
-                  <span>
-                    { `${countDown}`}
-                  </span>
-                </p>
-                <p data-testid="question-text">{category}</p>
-                <p data-testid="question-category">{question}</p>
+        {questions.map(
+          ({ category, question, correct_answer: correctAnswer,
+            incorrect_answers: incorrectAnswers,
+          },
+          index) => {
+            if (questionIndex === index) {
+              return (
                 <div>
-                  <AlternativesContainer
-                    alternatives={ [...incorrectAnswers, correctAnswer] }
-                    styleAlternative={ styleAlternative }
-                    countDown={ countDown }
-                    answerClick={ this.answerClick }
-                    index={ index }
-                  />
+                  <p>
+                    Tempo restante:
+                    {`${countDown}`}
+                  </p>
+                  <p data-testid="question-text">{category}</p>
+                  <p data-testid="question-category">{question}</p>
+                  <div>
+                    <AlternativesContainer
+                      alternatives={ [...incorrectAnswers, correctAnswer] }
+                      styleAlternative={ styleAlternative }
+                      countDown={ countDown }
+                      answerClick={ this.answerClick }
+                      index={ index }
+                    />
+                  </div>
+                  {styleAlternative ? (
+                    <button
+                      onClick={ () => this.nextQuestion() }
+                      type="button"
+                      data-testid="btn-next"
+                    >
+                      Próxima pergunta
+                    </button>
+                  ) : null}
                 </div>
-              </div>
-            );
-          } return null;
-        })}
+              );
+            }
+            return null;
+          },
+        )}
       </div>
     );
   }
@@ -125,5 +150,4 @@ Questions.propTypes = {
     }),
   }).isRequired,
   requestQuestions: PropTypes.func.isRequired,
-
 };

@@ -20,6 +20,11 @@ export const allQuestions = (questions) => ({
   questions,
 });
 
+export const sectionUser = (section) => ({
+  type: types.SECTION_USER,
+  section,
+});
+
 export function requestToken() {
   return (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
     .then((response) => response.json())

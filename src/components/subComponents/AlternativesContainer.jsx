@@ -42,7 +42,10 @@ class AlternativesContainer extends Component {
     return (
       <>
         {/* Ainda falta organizar de forma desordenada as alternativas. */}
-        {this.renderAlternatives().sort((a, b) => b.key - a.key)}
+        {this.renderAlternatives().sort((a, b) => {
+          const lessOne = -1;
+          if (b.key > a.key) { return lessOne; } return 1;
+        })}
       </>
     );
   }

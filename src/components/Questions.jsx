@@ -19,6 +19,8 @@ class Questions extends Component {
     this.handleState = this.handleState.bind(this);
     this.shuffle = this.shuffle.bind(this);
     this.answerClick = this.answerClick.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
     this.difficult = this.difficult.bind(this);
     this.throwToLocalStorage = this.throwToLocalStorage.bind(this);
   }
@@ -36,12 +38,13 @@ class Questions extends Component {
 
     const { requestQuestions } = this.props;
     const token = localStorage.getItem('token');
-
     await requestQuestions(token);
-
     const { questions } = this.props;
     this.handleState(questions);
+    this.updateTimer();
+  }
 
+  updateTimer() {
     const ThirtySeconds = 30;
     let i = ThirtySeconds;
     const oneSecond = 1000;
@@ -67,7 +70,7 @@ class Questions extends Component {
   }
 
   throwToLocalStorage() {
-    const { /* questions, */ email, username, section } = this.props;
+    const { email, username, section } = this.props;
     const { assertions, score } = this.state;
     const state = {
       player: {
@@ -92,6 +95,15 @@ class Questions extends Component {
       array[j] = temp;
     }
     return array;
+  }
+
+  nextQuestion() {
+    const { questionIndex } = this.state;
+    this.setState({
+      questionIndex: questionIndex + 1,
+      styleAlternative: false,
+    });
+    this.updateTimer();
   }
 
   difficult(difficultLevel) {
@@ -123,15 +135,18 @@ class Questions extends Component {
       this.setState({
         assertions: assertions + 1,
         score: score + questionScore,
-      }, () => clearInterval(this.interval));
+      });
 
       this.setState({}, () => this.throwToLocalStorage());
     }
+    clearInterval(this.interval);
   }
 
   render() {
     const { questions, questionIndex, styleAlternative, countDown } = this.state;
-    return questions.length === 0 ? <div>Loading</div> : (
+    return questions.length === 0 ? (
+      <div>Loading</div>
+    ) : (
       <div>
         {questions.map(({ category, question,
           correct_answer: correctAnswer,
@@ -141,9 +156,7 @@ class Questions extends Component {
               <div>
                 <p>
                   Tempo restante:
-                  <span>
-                    {`${countDown}`}
-                  </span>
+                  {`${countDown}`}
                 </p>
                 <p data-testid="question-text">{category}</p>
                 <p data-testid="question-category">{question}</p>
@@ -156,9 +169,19 @@ class Questions extends Component {
                     index={ index }
                   />
                 </div>
+                {styleAlternative ? (
+                  <button
+                    onClick={ () => this.nextQuestion() }
+                    type="button"
+                    data-testid="btn-next"
+                  >
+                    Próxima pergunta
+                  </button>
+                ) : null}
               </div>
             );
-          } return null;
+          }
+          return null;
         })}
       </div>
     );

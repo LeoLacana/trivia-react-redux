@@ -12,7 +12,7 @@ class Game extends Component {
   }
 
   render() {
-    const { player /* , token */ } = this.props;
+    const { player } = this.props;
     const { email, name } = player;
 
     return (

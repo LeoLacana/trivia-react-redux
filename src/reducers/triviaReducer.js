@@ -1,4 +1,3 @@
-// create a reducer to manage the login state
 import { TOKEN_REQUEST_SUCCESS, QUESTIONS_REQUEST } from '../actions/actionTypes';
 
 const INITIAL_STATE = {

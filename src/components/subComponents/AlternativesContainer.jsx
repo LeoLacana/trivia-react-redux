@@ -14,8 +14,7 @@ class AlternativesContainer extends Component {
     const { alternatives,
       styleAlternative,
       countDown,
-      answerClick,
-      questions } = this.props;
+      answerClick } = this.props;
 
     const alternativesList = alternatives.map((text, alternativeIndex, array) => {
       if (text === array[array.length - 1]) {
@@ -42,10 +41,8 @@ class AlternativesContainer extends Component {
   render() {
     return (
       <>
-        {this.renderAlternatives().sort((a, b) => {
-          // console.log(a);
-          return b.key - a.key;
-        })}
+        {/* Ainda falta organizar de forma desordenada as alternativas. */}
+        {this.renderAlternatives().sort((a, b) => b.key - a.key)}
       </>
     );
   }
@@ -58,7 +55,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(AlternativesContainer);
 
 AlternativesContainer.propTypes = {
-  questions: PropTypes.arrayOf(PropTypes.string).isRequired,
   styleAlternative: PropTypes.bool.isRequired,
   countDown: PropTypes.number.isRequired,
   answerClick: PropTypes.func.isRequired,

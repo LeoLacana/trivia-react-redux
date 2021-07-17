@@ -1,24 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class ScoreBoard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isScored: false,
-      score: 0,
-    };
-  }
-
   render() {
     const { sectionPlayer } = this.props;
     const zero = 0;
-    // console.log(sectionPlayer.score, 'a');
-    // if (sectionPlayer.player.section) {
-    //   console.log(sectionPlayer.player.section);
-    // }
-    // const { isScored, score } = this.state;
-    // console.log(sectionPlayer.player);
+
     return (
       <div>
         {'Placar: '}
@@ -35,3 +23,9 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(ScoreBoard);
+
+ScoreBoard.propTypes = {
+  sectionPlayer: PropTypes.shape({
+    score: PropTypes.number.isRequired,
+  }).isRequired,
+};

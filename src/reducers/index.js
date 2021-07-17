@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import loginReducer from './loginReducer';
 import triviaReducer from './triviaReducer';
-// modelo de importação dos reducers
+import sectionReducer from './sectionReducer';
 
 const rootReducer = combineReducers({
   loginReducer,
   triviaReducer,
+  sectionReducer,
 });
 
 export default rootReducer;

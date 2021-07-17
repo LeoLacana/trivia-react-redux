@@ -16,7 +16,7 @@ class AlternativesContainer extends Component {
       countDown,
       answerClick } = this.props;
 
-    const aaa = alternatives.map((text, alternativeIndex, array) => {
+    const alternativesList = alternatives.map((text, alternativeIndex, array) => {
       if (text === array[array.length - 1]) {
         return (<CorrectAnswer
           key={ text }
@@ -35,13 +35,17 @@ class AlternativesContainer extends Component {
         countDown={ countDown }
       />);
     });
-    return aaa;
+    return alternativesList;
   }
 
   render() {
     return (
       <>
-        {this.renderAlternatives().sort((a, b) => b.key - a.key)}
+        {/* Ainda falta organizar de forma desordenada as alternativas. */}
+        {this.renderAlternatives().sort((a, b) => {
+          const lessOne = -1;
+          if (b.key > a.key) { return lessOne; } return 1;
+        })}
       </>
     );
   }

@@ -109,7 +109,7 @@ class Questions extends Component {
   }
 
   async answerClick({ target }) {
-    const { questions, email, username } = this.props;
+    const { questions } = this.props;
     const { questionIndex, assertions, countDown, score } = this.state;
     this.setState({
       styleAlternative: true,
@@ -185,4 +185,7 @@ Questions.propTypes = {
     }),
   }).isRequired,
   requestQuestions: PropTypes.func.isRequired,
+  section: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };

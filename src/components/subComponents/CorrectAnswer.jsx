@@ -11,7 +11,7 @@ class CorrectAnswer extends Component {
       <button
         type="button"
         data-testid="correct-answer"
-        onClick={ () => answerClick() }
+        onClick={ (e) => answerClick(e) }
         style={ styleAlternative ? styles : null }
         disabled={ countDown === 0 }
       >

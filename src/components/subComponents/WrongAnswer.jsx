@@ -16,7 +16,7 @@ class WrongAnswer extends Component {
         type="button"
         key={ text }
         data-testid={ `wrong-answer-${alternativeIndex}` }
-        onClick={ () => answerClick() }
+        onClick={ (e) => answerClick(e) }
         style={ styleAlternative ? styles : null }
         disabled={ countDown === 0 }
       >

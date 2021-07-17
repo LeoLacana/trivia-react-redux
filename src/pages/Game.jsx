@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import Questions from '../components/Questions';
+import ScoreBoard from '../components/ScoreBoard';
 
 class Game extends Component {
   md5Converter(email) {
@@ -13,6 +14,7 @@ class Game extends Component {
   render() {
     const { player /* , token */ } = this.props;
     const { email, name } = player;
+
     return (
       <div>
         <div>
@@ -27,12 +29,7 @@ class Game extends Component {
               {name}
             </span>
           </p>
-          <p>
-            {'Placar: '}
-            <span data-testid="header-score">
-              0
-            </span>
-          </p>
+          <ScoreBoard />
         </div>
         <Questions />
       </div>

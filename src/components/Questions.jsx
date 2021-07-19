@@ -18,7 +18,6 @@ class Questions extends Component {
     };
 
     this.handleState = this.handleState.bind(this);
-    this.shuffle = this.shuffle.bind(this);
     this.answerClick = this.answerClick.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.updateTimer = this.updateTimer.bind(this);
@@ -85,19 +84,6 @@ class Questions extends Component {
     section(state.player);
   }
 
-  /* Para fazer uma espécie de embaralhamento, foi utilizada uma função retirada
-  de um pequeno tópico em StackOverFlow
-  Source: https://stackoverflow.com/questions/49555273/how-to-shuffle-an-array-of-objects-in-javascript */
-  shuffle(array) {
-    for (let i = array.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-    return array;
-  }
-
   nextQuestion() {
     const { questionIndex } = this.state;
     this.setState({
@@ -139,6 +125,8 @@ class Questions extends Component {
       });
 
       this.setState({}, () => this.throwToLocalStorage());
+    } else {
+      this.throwToLocalStorage();
     }
     clearInterval(this.interval);
   }

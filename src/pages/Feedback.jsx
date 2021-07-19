@@ -13,7 +13,7 @@ class Feedback extends Component {
   }
 
   render() {
-    const { sectionPlayer: player } = this.props;
+    const { history, sectionPlayer: player } = this.props;
     const { name, score, gravatarEmail, assertions } = player;
     const gravatarHash = md5(gravatarEmail).toString();
 
@@ -39,6 +39,13 @@ class Feedback extends Component {
           <span data-testid="header-score">{score}</span>
           <span data-testid="feedback-total-score">{score}</span>
         </p>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Jogar novamente
+        </button>
       </div>
     );
   }
@@ -55,5 +62,8 @@ Feedback.propTypes = {
     name: PropTypes.string.isRequired,
     score: PropTypes.number.isRequired,
     gravatarEmail: PropTypes.string.isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };

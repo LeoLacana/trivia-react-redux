@@ -23,6 +23,9 @@ class Feedback extends Component {
         <h1>
           {'Jogador: '}
           <span data-testid="header-player-name">{ name }</span>
+          {' acertou '}
+          <span data-testid="feedback-total-question">{ assertions }</span>
+          {' questões.'}
         </h1>
         <img
           alt="avatar"
@@ -30,12 +33,11 @@ class Feedback extends Component {
           data-testid="header-profile-picture"
         />
         <p>
+          {/* Lembrar de criar o componente header
+          para mostrar placar e o resto. Req 14, tá no figma */}
           Pontuação:
-          <span
-            data-testid="header-score"
-          >
-            {score}
-          </span>
+          <span data-testid="header-score">{score}</span>
+          <span data-testid="feedback-total-score">{score}</span>
         </p>
       </div>
     );

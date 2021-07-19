@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 class ScoreBoard extends Component {
   render() {
-    const { sectionPlayer } = this.props;
+    const { sectionPlayer: player } = this.props;
     const zero = 0;
 
     return (
       <div>
         {'Placar: '}
         <span data-testid="header-score">
-          {!sectionPlayer.score ? zero : sectionPlayer.score}
+          {!player.score ? zero : player.score}
         </span>
       </div>
     );

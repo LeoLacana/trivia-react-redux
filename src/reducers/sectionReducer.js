@@ -14,11 +14,13 @@ const sectionReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SECTION_USER:
     return {
-      ...state.player,
-      name: action.section.player.name,
-      assertions: action.section.player.assertions,
-      score: action.section.player.score,
-      gravatarEmail: action.section.player.gravatarEmail,
+      ...state,
+      player: {
+        name: action.section.name,
+        assertions: action.section.assertions,
+        score: action.section.score,
+        gravatarEmail: action.section.gravatarEmail,
+      },
     };
   default:
     return state;

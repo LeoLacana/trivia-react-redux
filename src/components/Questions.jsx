@@ -82,7 +82,7 @@ class Questions extends Component {
       },
     };
     localStorage.setItem('state', JSON.stringify(state));
-    section(state);
+    section(state.player);
   }
 
   /* Para fazer uma espécie de embaralhamento, foi utilizada uma função retirada

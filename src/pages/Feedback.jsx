@@ -4,13 +4,22 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 
 class Feedback extends Component {
+  scoreMessage(assertions) {
+    const minimumAssertion = 3;
+    if (assertions < minimumAssertion) {
+      return 'Podia ser melhor...';
+    }
+    return 'Mandou bem!';
+  }
+
   render() {
-    const { sectionPlayer } = this.props;
-    const { name, score, gravatarEmail } = sectionPlayer;
+    const { sectionPlayer: player } = this.props;
+    const { name, score, gravatarEmail, assertions } = player;
     const gravatarHash = md5(gravatarEmail).toString();
 
     return (
       <div data-testid="feedback-text">
+        <h1>{this.scoreMessage(assertions)}</h1>
         <h1>
           {'Jogador: '}
           <span data-testid="header-player-name">{ name }</span>
@@ -34,7 +43,7 @@ class Feedback extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  sectionPlayer: state.sectionReducer,
+  sectionPlayer: state.sectionReducer.player,
 });
 
 export default connect(mapStateToProps)(Feedback);

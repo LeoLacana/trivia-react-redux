@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { questionsRequest, sectionUser } from '../actions';
 import AlternativesContainer from './subComponents/AlternativesContainer';
+import NextAndFeedback from './NextAndFeedback';
 
 class Questions extends Component {
   constructor() {
@@ -144,6 +145,8 @@ class Questions extends Component {
 
   render() {
     const { questions, questionIndex, styleAlternative, countDown } = this.state;
+    const { history } = this.props;
+
     return questions.length === 0 ? (
       <div>Loading</div>
     ) : (
@@ -169,15 +172,14 @@ class Questions extends Component {
                     index={ index }
                   />
                 </div>
-                {styleAlternative ? (
-                  <button
-                    onClick={ () => this.nextQuestion() }
-                    type="button"
-                    data-testid="btn-next"
-                  >
-                    Próxima pergunta
-                  </button>
-                ) : null}
+                { styleAlternative ? (
+                  <NextAndFeedback
+                    index={ questionIndex }
+                    length={ questions.length - 1 }
+                    nextQuestion={ this.nextQuestion }
+                    history={ history }
+                  />
+                ) : null }
               </div>
             );
           }
@@ -211,4 +213,7 @@ Questions.propTypes = {
   section: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };

@@ -12,7 +12,7 @@ class Game extends Component {
   }
 
   render() {
-    const { player } = this.props;
+    const { player, history } = this.props;
     const { email, name } = player;
 
     return (
@@ -31,7 +31,7 @@ class Game extends Component {
           </p>
           <ScoreBoard />
         </div>
-        <Questions />
+        <Questions history={ history } />
       </div>
     );
   }
@@ -48,5 +48,8 @@ Game.propTypes = {
   player: PropTypes.shape({
     email: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };

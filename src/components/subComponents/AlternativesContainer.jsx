@@ -41,10 +41,10 @@ class AlternativesContainer extends Component {
   render() {
     return (
       <>
-        {/* Ainda falta organizar de forma desordenada as alternativas. */}
         {this.renderAlternatives().sort((a, b) => {
           const lessOne = -1;
-          if (b.key > a.key) { return lessOne; } return 1;
+          const one = 1;
+          if (b.key > a.key) { return lessOne; } return one;
         })}
       </>
     );

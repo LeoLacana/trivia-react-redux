@@ -4,12 +4,47 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 
 class Feedback extends Component {
+  constructor(props) {
+    super(props);
+    this.sendPlayerInfoToRanking = this.sendPlayerInfoToRanking.bind(this);
+  }
+
+  componentDidMount() {
+    this.sendPlayerInfoToRanking();
+  }
+
   scoreMessage(assertions) {
     const minimumAssertion = 3;
     if (assertions < minimumAssertion) {
       return 'Podia ser melhor...';
     }
     return 'Mandou bem!';
+  }
+
+  sendPlayerInfoToRanking() {
+    const { ranking } = localStorage;
+    const { sectionPlayer: player } = this.props;
+    const { name, score, gravatarEmail } = player;
+    const gravatarHash = md5(gravatarEmail).toString();
+
+    const avatarURL = `https://www.gravatar.com/avatar/${gravatarHash}`;
+    if (ranking) {
+      localStorage.getItem('ranking', []);
+      const oldRanking = JSON.parse(ranking);
+      const newRanking = oldRanking.concat({
+        name,
+        score,
+        picture: avatarURL,
+      });
+      return localStorage.setItem('ranking', JSON.stringify(newRanking));
+    }
+    const emptyRanking = {
+      name,
+      score,
+      picture: avatarURL,
+    };
+
+    return localStorage.setItem('ranking', JSON.stringify([emptyRanking]));
   }
 
   render() {

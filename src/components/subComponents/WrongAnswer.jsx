@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import decodeHtml from '../../helpers/htmldecode';
 
 class WrongAnswer extends Component {
   render() {
@@ -20,7 +21,7 @@ class WrongAnswer extends Component {
         style={ styleAlternative ? styles : null }
         disabled={ countDown === 0 }
       >
-        {text}
+        {decodeHtml(text)}
       </button>
     );
   }

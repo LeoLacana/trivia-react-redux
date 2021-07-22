@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 
 class ScoreBoard extends Component {
   render() {
-    const { sectionPlayer: player } = this.props;
+    const { sectionPlayer: { score } } = this.props;
     const zero = 0;
-
     return (
       <div>
         {'Placar: '}
         <span data-testid="header-score">
-          {!player.score ? zero : player.score}
+          {score || zero}
         </span>
       </div>
     );
@@ -19,7 +18,7 @@ class ScoreBoard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  sectionPlayer: state.sectionReducer,
+  sectionPlayer: state.sectionReducer.player,
 });
 
 export default connect(mapStateToProps)(ScoreBoard);

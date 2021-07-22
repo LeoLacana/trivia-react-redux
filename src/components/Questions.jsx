@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { questionsRequest, sectionUser } from '../actions';
 import AlternativesContainer from './subComponents/AlternativesContainer';
 import NextAndFeedback from './NextAndFeedback';
+import decodeHtml from '../helpers/htmldecode';
 
 class Questions extends Component {
   constructor() {
@@ -118,7 +119,6 @@ class Questions extends Component {
       const def = 10;
       const questionScore = (def + (countDown * this
         .difficult(questions.results[questionIndex])));
-      console.log(questionScore);
       this.setState({
         assertions: assertions + 1,
         score: score + questionScore,
@@ -144,13 +144,13 @@ class Questions extends Component {
           incorrect_answers: incorrectAnswers }, index) => {
           if (questionIndex === index) {
             return (
-              <div>
+              <div key={ index }>
                 <p>
                   Tempo restante:
                   {`${countDown}`}
                 </p>
                 <p data-testid="question-text">{category}</p>
-                <p data-testid="question-category">{question}</p>
+                <p data-testid="question-category">{decodeHtml(question)}</p>
                 <div>
                   <AlternativesContainer
                     alternatives={ [...incorrectAnswers, correctAnswer] }
